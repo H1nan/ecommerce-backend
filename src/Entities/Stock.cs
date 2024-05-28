@@ -6,7 +6,7 @@ public class Stock
     public Guid ProductId { get; set; }
     public int StockQuantity { get; set; }
     public int Price { get; set; }
-    public string Color { get; set; }
-    public char Size { get; set; }
+    public string? Color { get; set; }
+    public char? Size { get; set; }
     public IEnumerable<OrderItem> OrderItems { get; set; }
 }

@@ -12,5 +12,5 @@ public interface IOrderService
     public Order CreateOne(OrderCreateDTO newOrder);
     public bool DeleteOneById(Guid id);
     public bool DeleteOrderByUserId(Guid userId);
-    public void Checkout(List<CheckoutDto> newOrder, string userId);
+    public OrderReadDto? Checkout(List<CheckoutDto> newOrder, string userId);
 }

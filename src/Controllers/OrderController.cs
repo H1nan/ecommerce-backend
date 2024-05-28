@@ -40,8 +40,8 @@ public class OrderController : BaseController
     public ActionResult Checkout(List<CheckoutDto> newOrder)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        _orderService.Checkout(newOrder, userId);
-        return Ok();
+        var order = _orderService.Checkout(newOrder, userId);
+        return CreatedAtAction(nameof(Checkout), order);
     }
 
     [HttpGet("orders/{userId}")]

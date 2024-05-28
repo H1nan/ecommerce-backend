@@ -33,7 +33,7 @@ public class OrderService : IOrderService
         return _orderRepository.CreateOne(newOrder);
     }
 
-    public void Checkout(List<CheckoutDto> checkedoutItems, string userId)
+    public OrderReadDto? Checkout(List<CheckoutDto> checkedoutItems, string userId)
     {
         var haveAddress = _addressService.FindOne(new Guid(userId));
         if (haveAddress is null)
@@ -72,10 +72,11 @@ public class OrderService : IOrderService
                 stock.StockQuantity -= item.Quantity;
                 _stockService.UpdateOne(stock);
                 Console.WriteLine($" The stock {stock.StockQuantity}");
-
             }
             Console.WriteLine($"Total amount = {order.TotalAmount}");
+            return _mapper.Map<OrderReadDto>(order);
         }
+        return null;
     }
     public IEnumerable<OrderCreateDTO> FindAll()
     {

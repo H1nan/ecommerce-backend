@@ -12,10 +12,16 @@ public class ProductService : IProductService
         _ProductRepository = productRepository;
         _mapper = mapper;
     }
-    public IEnumerable<ProductDTO> FindAll(int limit, int offset)
+    public IEnumerable<ProductWithStock> FindAll(int limit, int offset, string? searchBy)
     {
-        IEnumerable<Product> products = _ProductRepository.FindAll(limit, offset);
-        return products.Select(_mapper.Map<ProductDTO>);
+        IEnumerable<ProductWithStock> products = _ProductRepository.FindAll(limit, offset);
+
+        if (searchBy is not null)
+        {
+            products = products.Where(product => product.Name.ToLower().Contains(searchBy.ToLower()));
+        }
+        // var productRead = products.Select(_mapper.Map<ProductDTO>);
+        return products;
     }
     public ProductDTO? FindeOne(Guid Id)
     {
@@ -28,5 +34,25 @@ public class ProductService : IProductService
     {
         Product creatProduct = _mapper.Map<Product>(product);
         return _mapper.Map<ProductDTO>(_ProductRepository.CreateOne(creatProduct));
+    }
+    public bool DeleteById(Guid id)
+    {
+        return _ProductRepository.DeleteById(id);
+    }
+
+
+    public ProductReadDTO UpdateOne(Guid productId, ProductUpdateDto updatedProduct)
+    {
+        var product = _ProductRepository.FindeOne(productId);
+        if (product != null)
+        {
+            product.Name = updatedProduct.Name;
+            product.Description = updatedProduct.Description;
+            product.CategoryId = updatedProduct.CategoryId;
+            _ProductRepository.UpdateOne(product);
+
+            return _mapper.Map<ProductReadDTO>(product);
+        }
+        return null;
     }
 }

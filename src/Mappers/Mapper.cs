@@ -14,6 +14,7 @@ public class Mapper : Profile
 
         CreateMap<Address, AddressDTO>();
         CreateMap<AddressDTO, Address>();
+        CreateMap<AddressCreateDTO, Address>();
 
 
 
@@ -32,6 +33,7 @@ public class Mapper : Profile
         CreateMap<Order, CheckoutDto>();
         CreateMap<Order, CheckoutDto>();
         CreateMap<Order, CheckoutDto>();
+        CreateMap<Order, OrderReadDto>();
 
         CreateMap<Product, ProductReadDTO>();
         CreateMap<ProductReadDTO, Product>();
